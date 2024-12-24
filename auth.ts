@@ -3,6 +3,7 @@ import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import prisma from "@/lib/prisma";
 import { z } from "zod"
+import GitHub from "next-auth/providers/github";
 
 export const credentialsSchema = z.object({
     email: z.string().email("Invalid email address"),
@@ -54,6 +55,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 }  
             },
         }),
+        GitHub
     ],
     pages: {
         signIn: "/signin"
@@ -62,6 +64,24 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         strategy: "jwt"
     },
     callbacks: {
+        async signIn({ user, account, profile }) {
+            if (account?.provider === "github") {
+                const email = profile?.email as string;
+
+                const existingUser = await prisma.user.findUnique({
+                    where: { email },
+                });
+
+                if (!existingUser) {
+                    await prisma.user.create({
+                        data: {
+                            email
+                        },
+                    });
+                }
+            }
+            return true;
+        },
         async session({session, token}){
             if(token.sub){
                 session.user.id = token.sub;
@@ -73,6 +93,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 token.sub = user.id;
             }
             return token;
-        }
+        },
     },
 });

@@ -30,7 +30,7 @@ type SignInFormData = z.infer<typeof SignInSchema>;
 
 export default function SignInPage() {
     const [loading, setLoading] = useState<boolean>(false);
-    const {data: session} = useSession();
+    const { data: session } = useSession();
 
     const form = useForm<z.infer<typeof SignInSchema>>({
         resolver: zodResolver(SignInSchema),
@@ -43,10 +43,10 @@ export default function SignInPage() {
     const router = useRouter();
 
     useEffect(() => {
-        if(session){
+        if (session) {
             router.push("/");
         }
-    },[session,router])
+    }, [session, router])
 
     const handleSignIn = async (data: SignInFormData) => {
         setLoading(true);
@@ -84,7 +84,7 @@ export default function SignInPage() {
                                     <FormControl>
                                         <Input placeholder="johndoe@gmail.com" {...field} />
                                     </FormControl>
-                                    <FormMessage/>
+                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
@@ -97,18 +97,20 @@ export default function SignInPage() {
                                     <FormControl>
                                         <Input placeholder="123456" {...field} />
                                     </FormControl>
-                                    <FormMessage/>
+                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
                         <div className="flex justify-center">
-                            <Button className="bg-[#6A1E55] w-32 h-10 text-lg hover:bg-[rgb(95,25,75)] " >{loading ? <LoaderCircle className="animate-spin"/> : "Signin"}</Button>
+                            <Button className="bg-[#6A1E55] w-32 h-10 text-lg hover:bg-[rgb(95,25,75)] " >{loading ? <LoaderCircle className="animate-spin" /> : "Signin"}</Button>
                         </div>
-                        <div className="flex justify-center">
+                        {/* <div className="flex justify-center">
                             <Button className="bg-[#6A1E55] w-64 h-10 text-lg hover:bg-[rgb(95,25,75)] " >Login With Google</Button>
-                        </div>
+                        </div> */}
                         <div className="flex justify-center">
-                            <Button className="bg-[#6A1E55] w-64 h-10 text-lg hover:bg-[rgb(95,25,75)] " >Login With GitHub</Button>
+                            <Button className="bg-[#6A1E55] w-64 h-10 text-lg hover:bg-[rgb(95,25,75)] " onClick={() => {
+                                signIn("github")
+                            }} type="button">Continue With GitHub</Button>
                         </div>
                         <div className="flex justify-center gap-2">
                             Don't have an account ?<Link href="/signup" className="hover:underline">Sign Up</Link>

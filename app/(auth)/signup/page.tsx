@@ -96,11 +96,11 @@ export default function SignUpPage() {
                         <div className="flex justify-center">
                             <Button type="submit" className="bg-[#6A1E55] w-32 h-10 text-lg hover:bg-[rgb(95,25,75)]" >{loading ? <LoaderCircle className="animate-spin"/> : "SignUp"}</Button>
                         </div>
-                        <div className="flex justify-center">
+                        {/* <div className="flex justify-center">
                             <Button className="bg-[#6A1E55] w-64 h-10 text-lg hover:bg-[rgb(95,25,75)] " >SignUp With Google</Button>
-                        </div>
+                        </div> */}
                         <div className="flex justify-center">
-                            <Button className="bg-[#6A1E55] w-64 h-10 text-lg hover:bg-[rgb(95,25,75)] " >SignUp With GitHub</Button>
+                            <Button className="bg-[#6A1E55] w-64 h-10 text-lg hover:bg-[rgb(95,25,75)] " >Continue With GitHub</Button>
                         </div>
                         <div className="flex justify-center gap-2">
                             Already have an account ?<Link href="/signin" className="hover:underline">Sign In</Link>
