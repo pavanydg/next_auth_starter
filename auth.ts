@@ -1,6 +1,7 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
+import prisma from "@/lib/prisma";
 import { z } from "zod"
 
 export const credentialsSchema = z.object({
@@ -23,7 +24,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 try{
                     
                     const { email, password} = credentialsSchema.parse(credentials);
-
+                    
                     const user = await prisma?.user.findUnique({
                         where: {email},
                     })
